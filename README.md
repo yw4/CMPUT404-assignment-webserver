@@ -26,7 +26,7 @@ compatible) http://docs.python.org/2/library/socketserver.html
 
 Collabrator
 ========================
-Yuan Wang (wang17) 
+* Yuan Wang (wang17) 
 
 Reference
 ========================
