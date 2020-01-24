@@ -31,7 +31,7 @@ class MyWebServer(socketserver.BaseRequestHandler):
 
     def send_404(self,path):
         status = b"HTTP/1.1 404 Not Found\r\n"
-        content = "No webpage was found for the web address: http://127.0.0.1:8080" + path+"\r\n"
+        content = "<!DOCTYPE html>\n<html>\n<title>404 Error</title>\n<body>The link is borken or the page is removed.\n</body>\n</html>\n"
         content_len = ("Content-Length: {}\r\n".format(str(len(content)))).encode()
         content_type = b"Content-Type: text/html; charset=UTF-8\r\n"
         body = content.encode()
@@ -39,7 +39,7 @@ class MyWebServer(socketserver.BaseRequestHandler):
 
     def send_405(self,split_data):
         status =b"HTTP/1.1 405 Method Not Allowed\r\n"
-        content= "Message:The requested resource does not support http method '"+ split_data + "'"
+        content= "<!DOCTYPE html>\n<html>\n<body> The requested resource does not support http method '" + split_data + "'</body>\n</html>\n"
         content_len = ("Content-Length: {}\r\n".format(str(len(content)))).encode()
         content_type =b"Content-Type: application/json; charset=utf-8\r\n"
         body = content.encode()
@@ -53,16 +53,15 @@ class MyWebServer(socketserver.BaseRequestHandler):
             content_type = b"Content-Type: text/css; charset=UTF-8\r\n"
             content_len = ("Content-Length: {}\r\n".format(str(len(content)))).encode()
             body = content.encode()
-            self.request.send(status + content_len+content_type + b'\r\n' + body)
+            self.request.send(status + content_len + content_type + b'\r\n' + body)
           elif path[-5:] == ".html":
             content = open( "./www"+ path,'r').read()
             content_type = b"Content-Type: text/html; charset=UTF-8\r\n"
             content_len = ("Content-Length: {}\r\n".format(str(len(content)))).encode()
             body = content.encode()
-            self.request.send(status + content_len+content_type + b'\r\n'+ body)
+            self.request.send(status + content_len + content_type + b'\r\n'+ body)
 
         except:
-          #self.request.send("HTTP/1.1 404 Not Found".encode())
           self.send_404(path)
 
     def handle_deep_end(self,path):
@@ -76,11 +75,11 @@ class MyWebServer(socketserver.BaseRequestHandler):
           self.request.send(status + location + b'\r\n')
 
         except:
-          #self.request.send("HTTP/1.1 404 Not Found".encode())
           self.send_404(path)
 
     def handle_path(self,path):
         try:
+          # deal with ""
           content = open( "./www"+path+'index.html','r').read()
           status = b"HTTP/1.1 200 OK\r\n"
           content_len = ("Content-Length: {}\r\n".format(str(len(content)))).encode()
