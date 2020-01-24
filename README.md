@@ -34,3 +34,4 @@ Get algorithm ideas and how to use some built in functions from the follwing ref
 * 1. Avivadirectory (2012). 404 Error message  Retrieved From http://www.404errorpages.com/
 * 2. Calmjsh (n.d.). Example 25, Retrieved From Programcreek https://www.programcreek.com/python/example/75/os.path.realpath
 * 3. Screw Everything (2018). HTTP Server: Everything you need to know to Build a simple HTTP server from scratch. https://medium.com/from-the-scratch/http-server-what-do-you-need-to-know-to-build-a-simple-http-server-from-scratch-d1ef8945e4fa
+* 4. Ruslan (2015) Let’s Build A Web Server. Part 2. Retreived from https://ruslanspivak.com/lsbaws-part2/
