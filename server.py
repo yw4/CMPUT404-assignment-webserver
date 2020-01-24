@@ -1,6 +1,6 @@
 #  coding: utf-8
 import socketserver
-
+import os
 # Copyright 2013 Abram Hindle, Eddie Antonio Santos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -96,6 +96,12 @@ class MyWebServer(socketserver.BaseRequestHandler):
         except:
           self.handle_deep_end(path)
 
+
+    def secure_path(self, path):
+        # deal with the test group
+        return os.path.realpath(os.getcwd()+'/www'+path).startswith(os.getcwd() + '/www')
+
+
     def handle(self):
 
         self.data = self.request.recv(1024).strip()
@@ -106,10 +112,13 @@ class MyWebServer(socketserver.BaseRequestHandler):
             #print(split_data)
 
             if split_data[0] == "GET":
-                if split_data[1][-4:] == '.css' or split_data[1][-5:] == '.html':
-                    self.handle_file(split_data[1])
+                if self.secure_path(split_data[1]):
+                    if split_data[1][-4:] == '.css' or split_data[1][-5:] == '.html':
+                        self.handle_file(split_data[1])
+                    else:
+                        self.handle_path(split_data[1])
                 else:
-                    self.handle_path(split_data[1])
+                    self.send_404(split_data[1])
             else:
                 self.send_405(split_data[0])
 
